@@ -16,23 +16,15 @@ This dataset describes quantitatively the somatodendritic and axonal structure o
 Show neuron <input type="button" size="100" onclick="showNeuron(event,'R281HI')" value="R281HI"/> anchored in the Allen Mouse CCF_v3 atlas.
 
 <script type="module">
-  const rpcInterface = await import('https://sba-dev.incf.org/js/rpc-interface.js');
-  const sbaInterface = new window.rpcInterface_class('https://sba-dev.incf.org/composer/?template=ABA_v3','SBA Composer');
-  window.sbaInterface.resolve(sbaInterface);
+  const rpc = await import('https://sba-dev.incf.org/js/rpc-interface.js');
+  window.sbaInterface = new rpc.rpcInterface_class('https://sba-dev.incf.org/composer/?template=ABA_v3','SBA Composer');
 </script> 
 <script type="text/javascript">
-window.sbaInterface = new Promise();
-window.sbaInterface.then(
-  (sbaInterface) => {
+var showNeuron = function(evt,name) {
+  if (!sbaInterface) {
+    setTimeout(() => showNeuron(evt,name),100);
+  } else {
     console.log(sbaInterface);
   }
-);
-
-/*
-function showNeuron(evt,name) {
-  if (!sbaInterface) {
-    sbaInterface = new window.rpcInterface_class('https://sba-dev.incf.org/composer/?template=ABA_v3','sbaInterface',)
-  console.log('showNeuron',window.rpcInterface);
 }
-*/
 </script>

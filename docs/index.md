@@ -9,7 +9,7 @@ crumbtitle: Main
 - Dataset: hosted at [EBRAINS](https://dx.doi.org/10.25493/AWS5-MZG).
 - License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 
-Show neuron <input type="button" size="100" onclick="showNeuron(event,'R281HI')" value="R281HI"/> anchored in the Allen Mouse CCF_v3 atlas.
+Show neuron <input type="button" size="100" onclick="showNeuron(event)" value="R281HI"/> anchored in the Allen Mouse CCF_v3 atlas.
 
 <script type="module">
   const rpc = import('https://sba-dev.incf.org/js/rpc-interface.js')
@@ -18,11 +18,23 @@ Show neuron <input type="button" size="100" onclick="showNeuron(event,'R281HI')"
   } );
 </script> 
 <script type="text/javascript">
-var showNeuron = function(evt,name) {
+var showNeuron = function(evt) {
   if (!sbaInterface) {
     setTimeout(() => showNeuron(evt,name),100);
   } else {
-    console.log(sbaInterface);
+    const name = evt.target.value;
+    if (name == 'R281HI') {
+      const sbaCommand = {
+        "method": "Composer.import",
+        "params": {
+          "name": name,
+          "mediaType": "model/mbf.dat",
+          "url": 'neurons/'+name+'.bas'
+        }
+      }
+      console.log(sbaCommand);
+      sbaInterface.send(sbaCommand);
+    }
   }
 }
 </script>
